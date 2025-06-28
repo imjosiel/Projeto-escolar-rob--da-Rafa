@@ -78,7 +78,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="relative flex flex-col h-screen bg-gradient-to-b from-sky-400 to-white p-4">
+    <div className="relative flex flex-col h-[calc(100vh-env(safe-area-inset-bottom))] bg-gradient-to-b from-sky-400 to-white p-4">{/* <div className="relative flex flex-col h-screen bg-gradient-to-b from-sky-400 to-white p-4">*/}
       <div className="absolute inset-0">
         <Spline scene="https://prod.spline.design/uvO9VMH2MygR2R2X/scene.splinecode" />
       </div>
