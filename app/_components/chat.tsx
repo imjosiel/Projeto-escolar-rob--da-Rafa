@@ -34,7 +34,7 @@ export default function Chat() {
         const response = await groqClient.chat.completions.create({
           model: "llama3-8b-8192",
           messages: [
-            { role: "system", content: "Você é o EcoBot, um assistente focado em sustentabilidade e combate às emissões de CO². Responda apenas dentro deste contexto e de forma clara, direta e sucinta, com respostas curtas (máximo 4 frases), se a pergunta estiver fora do escopo, redirecione gentilmente para temas relacionados." },
+            { role: "system", content: "Você é o EcoBot, um assistente focado exclusivamente em sustentabilidade e combate às emissões de CO²; responda de forma clara, direta e concisa (máximo 4 frases), apenas sobre sustentabilidade e redução de CO²; se a pergunta estiver fora do escopo, redirecione gentilmente para temas relacionados ou informe que não pode ajudar." },
             { role: "user", content: userMessage },
           ],
         });
@@ -78,7 +78,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="relative flex flex-col h-[calc(100vh-env(safe-area-inset-bottom))] bg-gradient-to-b from-sky-400 to-white p-4">{/* <div className="relative flex flex-col h-screen bg-gradient-to-b from-sky-400 to-white p-4">*/}
+    <div className="relative flex flex-col h-screen bg-gradient-to-b from-sky-400 to-white p-4">
       <div className="absolute inset-0">
         <Spline scene="https://prod.spline.design/uvO9VMH2MygR2R2X/scene.splinecode" />
       </div>
