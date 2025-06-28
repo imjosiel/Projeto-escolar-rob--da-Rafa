@@ -7,10 +7,12 @@ import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import Spline from "@splinetool/react-spline";
 import Groq from "groq-sdk";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Chat() {
   const [messages, setMessages] = useState([
-    { text: "Olá, como posso te ajudar hoje?", isUser: false },
+    { text: "Olá, sou o EcoBot! Estou aqui para ajudar com questões sobre sustentabilidade e combate às emissões de CO². Como posso ajudar?", isUser: false },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +33,10 @@ export default function Chat() {
       try {
         const response = await groqClient.chat.completions.create({
           model: "llama3-8b-8192",
-          messages: [{ role: "user", content: userMessage }],
+          messages: [
+            { role: "system", content: "Você é o EcoBot, um assistente focado em sustentabilidade e combate às emissões de CO². Responda apenas dentro deste contexto e de forma clara, direta e sucinta, com respostas curtas (máximo 4 frases), se a pergunta estiver fora do escopo, redirecione gentilmente para temas relacionados." },
+            { role: "user", content: userMessage },
+          ],
         });
 
         if (!response?.choices || response.choices.length === 0) {
@@ -75,19 +80,14 @@ export default function Chat() {
   return (
     <div className="relative flex flex-col h-screen bg-gradient-to-b from-sky-400 to-white p-4">
       <div className="absolute inset-0">
-        <Spline scene="https://prod.spline.design/N4k1A0ZDtKwQJ6Mw/scene.splinecode" />
+        <Spline scene="https://prod.spline.design/uvO9VMH2MygR2R2X/scene.splinecode" />
       </div>
 
       {/* Área de mensagens */}
-      {/* <div
-        ref={chatRef}
-        className="relative z-10 flex-1 flex flex-col overflow-y-auto space-y-4 backdrop-blur-[2px] mask-gradient"
-        style={{ display: "flex", flexDirection: "column" }}
-      > */}
       {/* Metade superior - espaço vazio ou modelo 3D */}
-  <div className="flex-1"></div>
+      <div className="flex-1"></div>
 
-  {/* Metade inferior - bloco de mensagens */}
+      {/* Metade inferior - bloco de mensagens */}
       <div className="relative z-10 flex flex-col h-1/2 overflow-y-auto space-y-4 backdrop-blur-[2px] mask-gradient [&::-webkit-scrollbar]:hidden">
         <div className="flex-1 "></div> {/* Spacer to push messages to the bottom */}
         {messages.map((message, index) => (
@@ -101,7 +101,11 @@ export default function Chat() {
               }`}
             >
               <CardContent>
-                <p className="text-[11px]">{message.text}</p>
+                <div className="text-[11px]">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {message.text}
+                  </ReactMarkdown>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -132,3 +136,4 @@ export default function Chat() {
     </div>
   );
 }
+
