@@ -79,12 +79,17 @@ export default function Chat() {
       </div>
 
       {/* Área de mensagens */}
-      <div
+      {/* <div
         ref={chatRef}
         className="relative z-10 flex-1 flex flex-col overflow-y-auto space-y-4 backdrop-blur-[2px] mask-gradient"
         style={{ display: "flex", flexDirection: "column" }}
-      >
-        <div className="flex-1"></div> {/* Spacer to push messages to the bottom */}
+      > */}
+      {/* Metade superior - espaço vazio ou modelo 3D */}
+  <div className="flex-1"></div>
+
+  {/* Metade inferior - bloco de mensagens */}
+      <div className="relative z-10 flex flex-col h-1/2 overflow-y-auto space-y-4 backdrop-blur-[2px] mask-gradient [&::-webkit-scrollbar]:hidden">
+        <div className="flex-1 "></div> {/* Spacer to push messages to the bottom */}
         {messages.map((message, index) => (
           <div
             key={index}
@@ -104,10 +109,18 @@ export default function Chat() {
       </div>
 
       {/* Área de entrada de mensagens */}
-      <div className="relative z-10 flex items-center gap-2 p-2 bg-white shadow-lg rounded-xl">
+      <div className="relative z-10 flex items-center gap-2 p-2 bg-white shadow-lg rounded-xl mt-5">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => 
+            {
+              if (e.key === "Enter" && !isLoading) 
+              {
+                handleSend();
+              }
+            }
+          }
           placeholder="Digite sua mensagem..."
           className="flex-1"
           disabled={isLoading}
